@@ -1,0 +1,14 @@
+# Dependencies
+numpy
+pandas
+
+huggingface_hub[cli]
+
+# Jupyter Notebook
+notebook
+
+# Lint tools
+black
+isort
+mypy
+pylint
