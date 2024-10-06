@@ -6,9 +6,11 @@ huggingface_hub[cli]
 
 # Jupyter Notebook
 notebook
+ipykernel
 
 # Lint tools
-black
+black[jupyter]
 isort
 mypy
 pylint
+pytest

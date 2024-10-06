@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line_length = 120
+
+[tool.isort]
+profile = "black"
+skip_glob = ["env", "venv"]
+
+[tool.mypy]
+files = ["src", "tests"]
+ignore_missing_imports = true
