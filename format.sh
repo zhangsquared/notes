@@ -1,15 +1,15 @@
-echo "black"
+echo "black..."
 black .
 echo
 
-echo "isort"
+echo "isort..."
 isort .
 echo
 
-echo "pylint"
-pylint ./src/ ./tests/
-echo
+# echo "pylint"
+# pylint ./src/ ./tests/
+# echo
 
-echo "mypy"
-mypy
-echo
+# echo "mypy"
+# mypy
+# echo

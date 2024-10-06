@@ -2,6 +2,15 @@
 numpy
 pandas
 
+transformers[torch]
+transformers[tf-cpu]
+datasets
+evaluate
+accelerate
+
+torch
+tensorflow
+
 huggingface_hub[cli]
 
 # Jupyter Notebook
