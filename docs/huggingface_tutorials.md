@@ -45,4 +45,8 @@ Datasets is a library for easily accessing and sharing datasets for Audio, Compu
 [Proprocess](https://huggingface.co/docs/datasets/use_dataset)
 
 Sometimes you may need to rename a column, and other times you might need to unflatten nested fields.
-    * 
+
+## [NLP Course](https://huggingface.co/learn/nlp-course/chapter1/1)
+
+
+
