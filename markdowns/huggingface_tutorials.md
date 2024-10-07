@@ -1,4 +1,4 @@
-# HuggingFace Youtube
+# HuggingFace Tutorials
 
 ## [Transformers](https://youtu.be/H39Z_720T5s)
 
@@ -31,4 +31,18 @@ The tokenzier's objective is to find a meaningful representation
 2. Char based
     * very long sequences
     * less meaningful individual tokens
-3. Subword based
+3. Subword based (most popular)
+    * Frequently used words should not be split into smaller subwords
+    * Rare words should be decomposed into meaningful subwords
+    e.g. `dog` =X=> `d`, `o`, `g`, `dogs` => `dog`, `s`
+
+## Datasets
+
+Datasets is a library for easily accessing and sharing datasets for Audio, Computer Vision, and Natural Language Processing (NLP) tasks.
+
+[Load a dataset from the Hub](https://huggingface.co/docs/datasets/load_hub)
+
+[Proprocess](https://huggingface.co/docs/datasets/use_dataset)
+
+Sometimes you may need to rename a column, and other times you might need to unflatten nested fields.
+    * 

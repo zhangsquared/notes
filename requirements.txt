@@ -3,9 +3,8 @@ numpy
 pandas
 
 transformers[torch]
-transformers[tf-cpu]
-datasets
-evaluate
+datasets[audio]
+datasets[vision]
 accelerate
 
 torch

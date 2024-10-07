@@ -24,6 +24,17 @@ def transformers_main():
     print(pipeline("sentiment-analysis")("I love you"))
 
 
+def datasets_main():
+    """try datasets"""
+
+    # import
+    from datasets import load_dataset
+
+    # func
+    print(load_dataset("squad", split="train")[0])
+
+
 if __name__ == "__main__":
-    np_pd_main()
+    # np_pd_main()
     # transformers_main()
+    datasets_main()
