@@ -5,11 +5,13 @@
 Transforers consists of `Encoder` and `Decoder`.
 
 The `encoder` encodes test into numerical representations
+
     - the numerical representations are also called as **embeddings** or **features**
     - **bi-directional** properties
     - use **self-attention** mechanism
 
-The `decoder` decodes the represetnations from the encoder. I can also accepts text inputs. 
+The `decoder` decodes the represetnations from the encoder. I can also accepts text inputs
+
     - use **masked self-attention** mechanism
     - **uni-directional** property
     - used in an **auto-regressive** manner
