@@ -1,22 +1,127 @@
-# HuggingFace Tutorials
+# [HuggingFace NLP Course](https://huggingface.co/learn/nlp-course/chapter1/1)
 
-## [Transformers](https://youtu.be/H39Z_720T5s)
+## Pipeline
+
+The pipeline function returns an end-to-end obenct that performs an NLP task on one or several texts
+
+`Pre-Processing` => `Model` => `Post-Processing`
+
+You can pipeline API with the default model associated to each task, but you can use it with any model that has been pretrained or fine-tuned on this task.
+
+Common usecase examples:
+
+1. Text classification/ Zero-shot classification
+
+```python
+pipeline("sentiment-analysis")
+```
+
+2. Text generation
+
+```python
+pipeline("text-generation")
+```
+
+3. Text completion (guess the value of the masked word)
+
+```python
+pipeline("fill-mask")
+```
+
+4. Token calssification (classify each word in the sentence instead of the sentence as a whole)
+
+e.g. Named Entity Recognition
+
+```python
+pipeline("ner", grouped_entities=True)
+```
+
+5. Question answering
+
+```python
+pipeline("question-answering")
+```
+
+6. Summarization
+
+```python
+pipeline("sumarization")
+```
+
+7. Translation
+
+```python
+pipeline("translation", model="Helsink-NLP/opus-mt-fr-en")
+```
+
+## Transformers
+
+- GPT like (*auto-regression* Tansformer models)
+- BERT like (*auto-encoding*)
+- BART/T5 like (*sequence-to-sequence*)
+
+Above are language models. They have been trained on large amount of raw text in a self-supervised fashion. Self-supervised learning: objective is automatically computed from the inpurts of the model. Humans are not needed to label the data!
+
+e.g. ImageNet is comonly used as a dataset to pretraining models in computer vision
+
+Still need to go through `transfer learning` so the model will be fine-tuned in a supervised way (using human annotated labels). Transfer learning is applied by dropping the head of the pretrained model while keeping its body. 
+
+Pretraining + Fine-tuning
+
+### [General architecture](https://youtu.be/H39Z_720T5s)
 
 Transforers consists of `Encoder` and `Decoder`.
 
-The `encoder` encodes test into numerical representations
+1. The `encoder` encodes test into numerical representations (inputs)
 
-- the numerical representations are also called as **embeddings** or **features**
-- **bi-directional** properties
-- use **self-attention** mechanism
+- the numerical representations are also called as **embeddings** or **features** (*feature vector*, *feature tensor*).  
+- **bi-directional** properties: context from the left, and the right
+- use **self-attention** mechanism: Each word in the initial squence affects every word's representation. The representation contains the value of the word, and contextualized (the words around it). Different positions or different words in sequance will affect the represenation. 
 
-The `decoder` decodes the represetnations from the encoder. I can also accepts text inputs
+Example of encoders: `BERT`, `RoBERTa`
 
-- use **masked self-attention** mechanism
-- **uni-directional** property
-- used in an **auto-regressive** manner
+Example of use cases: guess masked words; sentiment analysis
 
-Encoder-decoder transformers == Sequence-to-sequence transformers
+2. The `decoder` decodes the represetnations from the encoder. It can also accepts text inputs (outputs)
+
+- use **masked self-attention** + **cross-attention** mechanism
+- **uni-directional** property: words can only see the words on the left side; the right side is hidden
+- used in an **auto-regressive** manner: at each stage, for a given word, the attention layers can only access the words positioned *before* it in the sentences
+
+Example of decoders: `GPT`, `GPT2`, `CTRL`, `Transformer XL`
+
+Example of use cases: causal language modeling (guessing the next word in a sentence)
+
+3. Encoder-decoder transformers == Sequence-to-sequence transformers
+
+Decoder are give the output of the encoder, and a sequence (start of sequence word)
+
+Example of seq-to-seqs: `BART`, `mBART`, `Marian`, `T5`
+
+Example of use cases: summarization, translation, generative question answering
+
+### Attention layers
+
+A word's meaning is deeply affected by the context (words before or after the targe word).
+
+
+
+
+
+## Datasets
+
+Datasets is a library for easily accessing and sharing datasets for Audio, Computer Vision, and Natural Language Processing (NLP) tasks.
+
+[Load a dataset from the Hub](https://huggingface.co/docs/datasets/load_hub)
+
+[Proprocess](https://huggingface.co/docs/datasets/use_dataset)
+
+Sometimes you may need to rename a column, and other times you might need to unflatten nested fields.
+
+
+
+
+
 
 ## [Tokenizers](https://youtu.be/VFp38yj8h3A?si=GD7nYxwRkGjZyb4I)
 
@@ -37,18 +142,3 @@ The tokenzier's objective is to find a meaningful representation
     * Frequently used words should not be split into smaller subwords
     * Rare words should be decomposed into meaningful subwords
     e.g. `dog` =X=> `d`, `o`, `g`, `dogs` => `dog`, `s`
-
-## Datasets
-
-Datasets is a library for easily accessing and sharing datasets for Audio, Computer Vision, and Natural Language Processing (NLP) tasks.
-
-[Load a dataset from the Hub](https://huggingface.co/docs/datasets/load_hub)
-
-[Proprocess](https://huggingface.co/docs/datasets/use_dataset)
-
-Sometimes you may need to rename a column, and other times you might need to unflatten nested fields.
-
-## [NLP Course](https://huggingface.co/learn/nlp-course/chapter1/1)
-
-
-
