@@ -3,7 +3,7 @@
 - [Vocabularies](#vocabularies)
   - [Epoch](#epoch)
   - [Training Loss vs Validation Loss](#training-loss-vs-validation-loss)
-  - [Architecture, Checkpoints vs Model](#architecture-checkpoints-vs-model)
+  - [Architecture, Checkpoints, Weights vs Model](#architecture-checkpoints-weights-vs-model)
   - [Tensor, embeddings, hidden states, features, model heads](#tensor-embeddings-hidden-states-features-model-heads)
 
 
@@ -16,6 +16,8 @@
 - Validattion Loss > Training Loss: **underfitting**
 - Training Loss > Validation Loss: **overfitting**
 
-## [Architecture, Checkpoints vs Model](https://huggingface.co/learn/nlp-course/en/chapter1/4?fw=pt#architecture-vs-checkpoints)
+## [Architecture, Checkpoints, Weights vs Model](https://huggingface.co/learn/nlp-course/en/chapter1/4?fw=pt#architecture-vs-checkpoints)
+
+An architecture is a succession of mathematical functions to build a model and its weights are those functions parameters.
 
 ## Tensor, embeddings, hidden states, features, model heads
