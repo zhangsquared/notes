@@ -6,9 +6,12 @@
     - [General architecture](#general-architecture)
     - [Attention layers](#attention-layers)
   - [Using Transformers](#using-transformers)
-    - [`AutoTokenizer`](#autotokenizer)
-    - [`AutoModel` and `AutoModelForXYZ`](#automodel-and-automodelforxyz)
-    - [`PostProcessing`](#postprocessing)
+    - [Behind the sence](#behind-the-sence)
+      - [`AutoTokenizer`](#autotokenizer)
+      - [`AutoModel` and `AutoModelFor***`](#automodel-and-automodelfor)
+      - [`PostProcessing`](#postprocessing)
+    - [Create, load and save a transformer](#create-load-and-save-a-transformer)
+    - [Using a Transformer model for inference](#using-a-transformer-model-for-inference)
   - [Datasets](#datasets)
   - [Tokenizers](#tokenizers)
 
@@ -118,19 +121,21 @@ A word's meaning is deeply affected by the context (words before or after the ta
 
 ## Using Transformers
 
+### Behind the sence
+
 Tokenize => Model => PostProcessing
 
 - Tokenize: RawText => InputIDs
 - Model: InputIDs => logits
 - PostProcessing: logits => Predictions
 
-### `AutoTokenizer`
+#### `AutoTokenizer`
 
 Preprocessing step
 
 Generate `inputs_ids` and `attention_mask`
 
-### `AutoModel` and `AutoModelForXYZ`
+#### `AutoModel` and `AutoModelFor***`
 
 `AutoModel` generate *hidden states*/ *features*. 
 
@@ -155,13 +160,45 @@ Embeddings => Layer(s) => Hidden states => Head: Full model
 
 Model output is `logits`, the raw, unnormalized scores.
 
-### `PostProcessing`
+#### `PostProcessing`
 
 To be converted to probabilities, the logits need to go through a `SoftMax` layer.
 
 The loss function will be generated here. 
 
 PostProcessing will create predictions
+
+### Create, load and save a transformer
+
+![Init a transformers model](image.png)
+
+`AutoModel` returns the correct architecture based on the checkpoint. It can automatically guess the appropriate model architecture for your checkpoint, and then instantiates a model with this architecture.
+
+But we can also specify which architecture directly. 
+
+```python
+from transformers import BertConfig, BertModel
+
+# build the model from scratch
+config = BertConfig()
+model = BertModel(config)
+
+# load a pre-trained mode
+model = BertModel.from_pretrained("bert-base-cased")  # instead of AutoModel here
+# this will produces checkpoint-agnostic code
+
+# save, generate `config.json` and `pytorch_model.bin` (the state dictinoary)
+model.save_pretrained("directory_on_my_computer")
+```
+
+The configuration is necessary to know your model’s architecture, while the model weights are your model’s parameters.
+
+### Using a Transformer model for inference
+
+```python
+import torch
+model_inputs = torch.tensor(encoded_sequences)
+```
 
 ## Datasets
 
@@ -179,10 +216,6 @@ Sometimes you may need to rename a column, and other times you might need to unf
 
 
 ## [Tokenizers](https://youtu.be/VFp38yj8h3A?si=GD7nYxwRkGjZyb4I)
-
-Tokenize => Model => PostProcessing
-
-RawText => InputIDs => logits => Predictions
 
 The tokenzier's objective is to find a meaningful representation
 
