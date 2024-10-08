@@ -12,8 +12,8 @@
       - [`PostProcessing`](#postprocessing)
     - [Create, load and save a transformer](#create-load-and-save-a-transformer)
     - [Using a Transformer model for inference](#using-a-transformer-model-for-inference)
-  - [Datasets](#datasets)
   - [Tokenizers](#tokenizers)
+  - [Datasets](#datasets)
 
 ## Pipeline
 
@@ -174,9 +174,9 @@ PostProcessing will create predictions
 
 `AutoModel` returns the correct architecture based on the checkpoint. It can automatically guess the appropriate model architecture for your checkpoint, and then instantiates a model with this architecture.
 
-`AutoConfig` allows you to init the config of a pretrained model from any checkpoints.
-
 But we can also specify which architecture directly. 
+
+`AutoConfig` allows you to init the config of a pretrained model from any checkpoints. `Configuration` is the blueprint that contains all the information neccessary to create the model architecture. 
 
 ```python
 from transformers import BertConfig, BertModel
@@ -202,21 +202,6 @@ import torch
 model_inputs = torch.tensor(encoded_sequences)
 ```
 
-## Datasets
-
-Datasets is a library for easily accessing and sharing datasets for Audio, Computer Vision, and Natural Language Processing (NLP) tasks.
-
-[Load a dataset from the Hub](https://huggingface.co/docs/datasets/load_hub)
-
-[Proprocess](https://huggingface.co/docs/datasets/use_dataset)
-
-Sometimes you may need to rename a column, and other times you might need to unflatten nested fields.
-
-
-
-
-
-
 ## [Tokenizers](https://youtu.be/VFp38yj8h3A?si=GD7nYxwRkGjZyb4I)
 
 The tokenzier's objective is to find a meaningful representation
@@ -232,3 +217,20 @@ The tokenzier's objective is to find a meaningful representation
     * Frequently used words should not be split into smaller subwords
     * Rare words should be decomposed into meaningful subwords
     e.g. `dog` =X=> `d`, `o`, `g`, `dogs` => `dog`, `s`
+
+## Datasets
+
+Datasets is a library for easily accessing and sharing datasets for Audio, Computer Vision, and Natural Language Processing (NLP) tasks.
+
+[Load a dataset from the Hub](https://huggingface.co/docs/datasets/load_hub)
+
+[Proprocess](https://huggingface.co/docs/datasets/use_dataset)
+
+Sometimes you may need to rename a column, and other times you might need to unflatten nested fields.
+
+
+
+
+
+
+
