@@ -13,6 +13,7 @@
     - [Create, load and save a transformer](#create-load-and-save-a-transformer)
     - [Using a Transformer model for inference](#using-a-transformer-model-for-inference)
   - [Tokenizers](#tokenizers)
+    - [The tokenization pipeline](#the-tokenization-pipeline)
   - [Datasets](#datasets)
 
 ## Pipeline
@@ -148,6 +149,8 @@ This is a high-dimensional vector representing the contextual understanding of t
 
 **Model Heads**
 
+Model head is an additional component, usually made up of one or a few layers, to convert the transformer predictions to a task-specific output
+
 e.g. 
 
 Model input => Embeddings => Layer(s) => Hidden states => Head => Model output
@@ -217,6 +220,19 @@ The tokenzier's objective is to find a meaningful representation
     * Frequently used words should not be split into smaller subwords
     * Rare words should be decomposed into meaningful subwords
     e.g. `dog` =X=> `d`, `o`, `g`, `dogs` => `dog`, `s`
+
+### The tokenization pipeline
+
+Raw Text => Tokens => Special Tokens => Input IDs
+
+Translating text to numbers is known as `encoding`:
+1. tokenization. e.g. `tokens = tokenizer.tokenize("this is an apple.")`
+2. the conversion to input IDs. e.g. `ids = tokenizer.convert_tokens_to_ids(tokens)`
+3. Add beginning and ending tokens. e.g. `final_ids = tokenizer.prepare_for_model(ids)`
+
+These 3 steps are the same as `tokenizer("this is an apple.")` as the `__call__` method.
+
+`deconding`. e.g. `decoded_string = tokenizer.decode([7993, 170, 11303, 1200, 2443, 1110, 3014])`
 
 ## Datasets
 
