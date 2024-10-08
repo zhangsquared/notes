@@ -170,9 +170,11 @@ PostProcessing will create predictions
 
 ### Create, load and save a transformer
 
-![Init a transformers model](image.png)
+![Init a transformers model](./images/init_a_transformers_model.png)
 
 `AutoModel` returns the correct architecture based on the checkpoint. It can automatically guess the appropriate model architecture for your checkpoint, and then instantiates a model with this architecture.
+
+`AutoConfig` allows you to init the config of a pretrained model from any checkpoints.
 
 But we can also specify which architecture directly. 
 
