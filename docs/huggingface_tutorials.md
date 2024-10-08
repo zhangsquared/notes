@@ -1,5 +1,16 @@
 # [HuggingFace NLP Course](https://huggingface.co/learn/nlp-course/chapter1/1)
 
+- [HuggingFace NLP Course](#huggingface-nlp-course)
+  - [Pipeline](#pipeline)
+  - [Transformer Models](#transformer-models)
+    - [General architecture](#general-architecture)
+    - [Attention layers](#attention-layers)
+  - [Using Transformers](#using-transformers)
+    - [`AutoTokenizer`](#autotokenizer)
+    - [`AutoModel` and `AutoModelForXYZ`](#automodel-and-automodelforxyz)
+  - [Datasets](#datasets)
+  - [Tokenizers](#tokenizers)
+
 ## Pipeline
 
 The pipeline function returns an end-to-end obenct that performs an NLP task on one or several texts
@@ -54,7 +65,7 @@ pipeline("sumarization")
 pipeline("translation", model="Helsink-NLP/opus-mt-fr-en")
 ```
 
-## Transformers
+## Transformer Models
 
 - GPT like (*auto-regression* Tansformer models)
 - BERT like (*auto-encoding*)
@@ -104,9 +115,33 @@ Example of use cases: summarization, translation, generative question answering
 
 A word's meaning is deeply affected by the context (words before or after the targe word).
 
+## Using Transformers
 
+### `AutoTokenizer`
 
+Preprocessing step
 
+Generate `inputs_ids` and `attention_mask` (tensors)
+
+### `AutoModel` and `AutoModelForXYZ`
+
+Take tensors as input, generate *hidden states*/ *features*. 
+
+*Hidden states* can also be input to another part of the model, known as the *head*.
+
+This is a high-dimensional vector representing the contextual understanding of that input by the Transformer model: 
+- batch size
+- sequence length
+- hidden size
+
+**Model Heads**
+
+e.g. 
+
+Model input => Embeddings => Layer(s) => Hidden states => Head => Model output
+
+Embeddings => Layer(s): Transformer network
+Embeddings => Layer(s) => Hidden states => Head: Full model
 
 ## Datasets
 
