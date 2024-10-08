@@ -4,7 +4,7 @@
   - [Epoch](#epoch)
   - [Training Loss vs Validation Loss](#training-loss-vs-validation-loss)
   - [Architecture, Checkpoints, Weights vs Model](#architecture-checkpoints-weights-vs-model)
-  - [Tensor, embeddings, hidden states, features, model heads](#tensor-embeddings-hidden-states-features-model-heads)
+  - [Input IDs, embeddings, hidden states, features, model heads](#input-ids-embeddings-hidden-states-features-model-heads)
 
 
 ## Epoch
@@ -20,4 +20,4 @@
 
 An architecture is a succession of mathematical functions to build a model and its weights are those functions parameters.
 
-## Tensor, embeddings, hidden states, features, model heads
+## Input IDs, embeddings, hidden states, features, model heads

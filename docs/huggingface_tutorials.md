@@ -8,6 +8,7 @@
   - [Using Transformers](#using-transformers)
     - [`AutoTokenizer`](#autotokenizer)
     - [`AutoModel` and `AutoModelForXYZ`](#automodel-and-automodelforxyz)
+    - [`PostProcessing`](#postprocessing)
   - [Datasets](#datasets)
   - [Tokenizers](#tokenizers)
 
@@ -83,7 +84,7 @@ Pretraining + Fine-tuning
 
 Transforers consists of `Encoder` and `Decoder`.
 
-1. The `encoder` encodes test into numerical representations (inputs)
+1. The `encoder` encodes test into numerical representations (make sense of inputs)
 
 - the numerical representations are also called as **embeddings** or **features** (*feature vector*, *feature tensor*).  
 - **bi-directional** properties: context from the left, and the right
@@ -93,7 +94,7 @@ Example of encoders: `BERT`, `RoBERTa`
 
 Example of use cases: guess masked words; sentiment analysis
 
-2. The `decoder` decodes the represetnations from the encoder. It can also accepts text inputs (outputs)
+2. The `decoder` decodes the represetnations from the encoder. It can also accepts text inputs (generate outputs)
 
 - use **masked self-attention** + **cross-attention** mechanism
 - **uni-directional** property: words can only see the words on the left side; the right side is hidden
@@ -117,15 +118,21 @@ A word's meaning is deeply affected by the context (words before or after the ta
 
 ## Using Transformers
 
+Tokenize => Model => PostProcessing
+
+- Tokenize: RawText => InputIDs
+- Model: InputIDs => logits
+- PostProcessing: logits => Predictions
+
 ### `AutoTokenizer`
 
 Preprocessing step
 
-Generate `inputs_ids` and `attention_mask` (tensors)
+Generate `inputs_ids` and `attention_mask`
 
 ### `AutoModel` and `AutoModelForXYZ`
 
-Take tensors as input, generate *hidden states*/ *features*. 
+`AutoModel` generate *hidden states*/ *features*. 
 
 *Hidden states* can also be input to another part of the model, known as the *head*.
 
@@ -142,6 +149,19 @@ Model input => Embeddings => Layer(s) => Hidden states => Head => Model output
 
 Embeddings => Layer(s): Transformer network
 Embeddings => Layer(s) => Hidden states => Head: Full model
+
+- `AutoModel` will generate Hidden states
+- `AutoModelForXYZ` will generate head
+
+Model output is `logits`, the raw, unnormalized scores.
+
+### `PostProcessing`
+
+To be converted to probabilities, the logits need to go through a `SoftMax` layer.
+
+The loss function will be generated here. 
+
+PostProcessing will create predictions
 
 ## Datasets
 
