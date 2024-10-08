@@ -13,8 +13,8 @@
 
 ## Training Loss vs Validation Loss 
 
-Validattion Loss > Training Loss: underfitting
-Training Loss > Validation Loss: overfitting
+- Validattion Loss > Training Loss: **underfitting**
+- Training Loss > Validation Loss: **overfitting**
 
 ## [Architecture, Checkpoints vs Model](https://huggingface.co/learn/nlp-course/en/chapter1/4?fw=pt#architecture-vs-checkpoints)
 
