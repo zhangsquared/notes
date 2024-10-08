@@ -6,7 +6,7 @@
     - [General architecture](#general-architecture)
     - [Attention layers](#attention-layers)
   - [Using Transformers](#using-transformers)
-    - [Behind the sence](#behind-the-sence)
+    - [Behind the scene](#behind-the-scene)
       - [`AutoTokenizer`](#autotokenizer)
       - [`AutoModel` and `AutoModelFor***`](#automodel-and-automodelfor)
       - [`PostProcessing`](#postprocessing)
@@ -121,7 +121,7 @@ A word's meaning is deeply affected by the context (words before or after the ta
 
 ## Using Transformers
 
-### Behind the sence
+### Behind the scene
 
 Tokenize => Model => PostProcessing
 
