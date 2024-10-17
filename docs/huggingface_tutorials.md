@@ -17,6 +17,10 @@
     - [Tokenizers](#tokenizers)
       - [The tokenization pipeline](#the-tokenization-pipeline)
   - [Fine-Tunning a pretrained model](#fine-tunning-a-pretrained-model)
+    - [Train from scratch](#train-from-scratch)
+      - [How to load datasets](#how-to-load-datasets)
+        - [RAM issue](#ram-issue)
+        - [Dynamic padding](#dynamic-padding)
   - [Datasets](#datasets)
 
 ## Pipeline
@@ -278,7 +282,73 @@ These 3 steps are the same as `tokenizer("this is an apple.")` as the `__call__`
 
 ## Fine-Tunning a pretrained model
 
+### Train from scratch
 
+#### How to load datasets
+
+**GLUE benchmark** -- an academic benchmark that is used to measure the performance of ML models across 10 different **text classification** tasks.
+
+8 out of 10 are sentence pairs. 
+
+Models like BERT are often trained with dual objectives: (1) the lgunage modeling objective and (guess the masked word) (2) an objective related to sentence pairs (e.g. to recognize relationships between two sentences, to predict whether the second sentence follows the first.)
+
+Tokenizer can handle sentence pairs (Note: it's different than handling mutiple sequences!)
+
+```python
+inputs = tokenizer("This is the first sentence.", "This is the second one.")
+```
+
+`inputs` will include `input_ids`, `attention_mask` and `token_type_ids`.
+`token_type_ids` is used to seperate the 1st sentence vs the 2nd sentence. 
+
+##### RAM issue
+
+HuggingFace `Datasets` library saves everything to disk using **Apache Arrow**, which ensures we won't get out of RAM. Use `Dataset.map()` method. 
+
+```python
+# this will create a dictionary, which is saved in RAM. Can cause OOM problem
+tokenized_dataset = tokenizer(
+    raw_datasets["train"]["sentence1"],
+    raw_datasets["train"]["sentence2"],
+    padding=True,
+    truncation=True,
+)
+
+# this is a better way to write it. 
+def tokenize_function(example):
+    """returns a dictionary with the keys input_ids, attention_mask, and token_type_ids"""
+    return tokenizer(example["sentence1"], example["sentence2"], truncation=True)
+tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)  # multi-threading
+```
+
+##### Dynamic padding
+
+Padding with the batch max size, not the whole dataset max size.
+
+To apply dynamic padding, we postpone the padding in the preprocessing function
+
+```python
+from transformers import DataCollatorWithPadding
+
+data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
+
+samples = tokenized_datasets["train"][:8]
+batch = data_collator(samples)
+```
+
+```python
+from torch.utils.data import DataLoader
+from transformers import DataCollatorWithPadding
+
+data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
+train_dataloader = DataLoader(
+  tokenized_datasets["train"], batch_size=16, shuffle=True, collate_fn=data_collator
+)
+for step, batch in enumerate(train_dataloader):
+  print(batch["input_ids"].shape)
+  if step > 5:
+    break
+```
 
 ## Datasets
 
