@@ -19,7 +19,7 @@
   - [Fine-Tunning a pretrained model](#fine-tunning-a-pretrained-model)
     - [How to load datasets](#how-to-load-datasets)
       - [Sentence Pairs](#sentence-pairs)
-      - [RAM issue](#ram-issue)
+      - [RAM issue... Use map()!](#ram-issue-use-map)
       - [Dynamic padding](#dynamic-padding)
   - [Datasets](#datasets)
 
@@ -301,7 +301,7 @@ inputs = tokenizer("This is the first sentence.", "This is the second one.")
 `inputs` will include `input_ids`, `attention_mask` and `token_type_ids`.
 `token_type_ids` is used to seperate the 1st sentence vs the 2nd sentence. 
 
-#### RAM issue
+#### RAM issue... Use map()!
 
 HuggingFace `Datasets` library saves everything to disk using **Apache Arrow**, which ensures we won't get out of RAM. Use `Dataset.map()` method. 
 
