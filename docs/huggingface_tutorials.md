@@ -290,7 +290,7 @@ These 3 steps are the same as `tokenizer("this is an apple.")` as the `__call__`
 
 8 out of 10 are sentence pairs. 
 
-Models like BERT are often trained with dual objectives: (1) the lgunage modeling objective and (guess the masked word) (2) an objective related to sentence pairs (e.g. to recognize relationships between two sentences, to predict whether the second sentence follows the first.)
+Models like BERT are often trained with dual objectives: (1) the language modeling objective and (e.g. guess the masked word) (2) an objective related to sentence pairs (e.g. to recognize relationships between two sentences, to predict whether the second sentence follows the first.)
 
 Tokenizer can handle sentence pairs (Note: it's different than handling mutiple sequences!)
 
