@@ -17,10 +17,9 @@
     - [Tokenizers](#tokenizers)
       - [The tokenization pipeline](#the-tokenization-pipeline)
   - [Fine-Tunning a pretrained model](#fine-tunning-a-pretrained-model)
-    - [Train from scratch](#train-from-scratch)
-      - [How to load datasets](#how-to-load-datasets)
-        - [RAM issue](#ram-issue)
-        - [Dynamic padding](#dynamic-padding)
+    - [How to load datasets](#how-to-load-datasets)
+      - [RAM issue](#ram-issue)
+      - [Dynamic padding](#dynamic-padding)
   - [Datasets](#datasets)
 
 ## Pipeline
@@ -282,9 +281,7 @@ These 3 steps are the same as `tokenizer("this is an apple.")` as the `__call__`
 
 ## Fine-Tunning a pretrained model
 
-### Train from scratch
-
-#### How to load datasets
+### How to load datasets
 
 **GLUE benchmark** -- an academic benchmark that is used to measure the performance of ML models across 10 different **text classification** tasks.
 
@@ -301,7 +298,7 @@ inputs = tokenizer("This is the first sentence.", "This is the second one.")
 `inputs` will include `input_ids`, `attention_mask` and `token_type_ids`.
 `token_type_ids` is used to seperate the 1st sentence vs the 2nd sentence. 
 
-##### RAM issue
+#### RAM issue
 
 HuggingFace `Datasets` library saves everything to disk using **Apache Arrow**, which ensures we won't get out of RAM. Use `Dataset.map()` method. 
 
@@ -321,7 +318,7 @@ def tokenize_function(example):
 tokenized_datasets = raw_datasets.map(tokenize_function, batched=True)  # multi-threading
 ```
 
-##### Dynamic padding
+#### Dynamic padding
 
 Padding with the batch max size, not the whole dataset max size.
 
