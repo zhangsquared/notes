@@ -14,8 +14,8 @@
     - [Using a Transformer model for inference](#using-a-transformer-model-for-inference)
       - [Batch](#batch)
       - [Padding](#padding)
-  - [Tokenizers](#tokenizers)
-    - [The tokenization pipeline](#the-tokenization-pipeline)
+    - [Tokenizers](#tokenizers)
+      - [The tokenization pipeline](#the-tokenization-pipeline)
   - [Fine-Tunning a pretrained model](#fine-tunning-a-pretrained-model)
   - [Datasets](#datasets)
 
@@ -247,7 +247,7 @@ outputs = model(torch.tensor(batched_ids), attention_mask=torch.tensor(attention
 print(outputs.logits)
 ```
 
-## [Tokenizers](https://youtu.be/VFp38yj8h3A?si=GD7nYxwRkGjZyb4I)
+### [Tokenizers](https://youtu.be/VFp38yj8h3A?si=GD7nYxwRkGjZyb4I)
 
 The tokenzier's objective is to find a meaningful representation
 
@@ -263,7 +263,7 @@ The tokenzier's objective is to find a meaningful representation
     * Rare words should be decomposed into meaningful subwords
     e.g. `dog` =X=> `d`, `o`, `g`, `dogs` => `dog`, `s`
 
-### The tokenization pipeline
+#### The tokenization pipeline
 
 `Raw Text` => `Tokens` => `Special Tokens` => `Input IDs`
 
