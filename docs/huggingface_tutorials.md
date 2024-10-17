@@ -12,8 +12,11 @@
       - [`PostProcessing`](#postprocessing)
     - [Create, load and save a transformer](#create-load-and-save-a-transformer)
     - [Using a Transformer model for inference](#using-a-transformer-model-for-inference)
+      - [Batch](#batch)
+      - [Padding](#padding)
   - [Tokenizers](#tokenizers)
     - [The tokenization pipeline](#the-tokenization-pipeline)
+  - [Fine-Tunning a pretrained model](#fine-tunning-a-pretrained-model)
   - [Datasets](#datasets)
 
 ## Pipeline
@@ -72,15 +75,16 @@ pipeline("translation", model="Helsink-NLP/opus-mt-fr-en")
 
 ## Transformer Models
 
-- GPT like (*auto-regression* Tansformer models)
-- BERT like (*auto-encoding*)
-- BART/T5 like (*sequence-to-sequence*)
+- BERT like (*auto-encoding*) encoder
+- GPT like (*auto-regression* Tansformer models) decoder
+- BART/T5 like (*sequence-to-sequence*) encoder + decoder
 
-Above are language models. They have been trained on large amount of raw text in a self-supervised fashion. Self-supervised learning: objective is automatically computed from the inpurts of the model. Humans are not needed to label the data!
+Above are language models. They have been trained on large amount of raw text in a **self-supervised** fashion. 
+Self-supervised learning: objective is automatically computed from the inpurts of the model. Humans are not needed to label the data!
 
 e.g. ImageNet is comonly used as a dataset to pretraining models in computer vision
 
-Still need to go through `transfer learning` so the model will be fine-tuned in a supervised way (using human annotated labels). Transfer learning is applied by dropping the head of the pretrained model while keeping its body. 
+Still need to go through `transfer learning` so the model will be **fine-tuned** in a supervised way (using human annotated labels). Transfer learning is applied by dropping the head of the pretrained model while keeping its body. 
 
 Pretraining + Fine-tuning
 
@@ -124,11 +128,13 @@ A word's meaning is deeply affected by the context (words before or after the ta
 
 ### Behind the scene
 
-Tokenize => Model => PostProcessing
+`Tokenize` => `Model` => `PostProcessing`
 
 - Tokenize: RawText => InputIDs
 - Model: InputIDs => logits
 - PostProcessing: logits => Predictions
+
+ The tokenizer and model should always be from the same checkpoint!
 
 #### `AutoTokenizer`
 
@@ -153,10 +159,10 @@ Model head is an additional component, usually made up of one or a few layers, t
 
 e.g. 
 
-Model input => Embeddings => Layer(s) => Hidden states => Head => Model output
+`Model input` => `Embeddings` => `Layer(s)` => `Hidden states` => `Head` => `Model output`
 
-Embeddings => Layer(s): Transformer network
-Embeddings => Layer(s) => Hidden states => Head: Full model
+`Embeddings` => `Layer(s)`: Transformer network
+`Embeddings` => `Layer(s)` => `Hidden states` => `Head`: Full model
 
 - `AutoModel` will generate Hidden states
 - `AutoModelForXYZ` will generate head
@@ -202,7 +208,43 @@ The configuration is necessary to know your model’s architecture, while the mo
 
 ```python
 import torch
-model_inputs = torch.tensor(encoded_sequences)
+
+tokens = tokenizer.tokenize("this is an apple.")
+ids = tokenizer.convert_tokens_to_ids(tokens)
+final_ids = tokenizer.prepare_for_model(ids)
+input_ids = torch.tensor([final_ids])
+```
+
+or
+
+```python
+input_ids = tokenizer("this is an apple.", return_tensors="pt")  # PyTorch tensors
+```
+
+#### Batch
+
+Batching allows the model to work when you feed it multiple sentences.
+
+#### Padding
+
+To make sure all our tensors have the same length, we use `padding`.
+Also need to make sure the padding won't be `contextualized`, hence using an `attention mask`.
+
+The padding token ID can be found in `tokenizer.pad_token_id`.
+
+```python
+batched_ids = [
+    [200, 200, 200],
+    [200, 200, tokenizer.pad_token_id],
+]
+
+attention_mask = [
+    [1, 1, 1],
+    [1, 1, 0],
+]
+
+outputs = model(torch.tensor(batched_ids), attention_mask=torch.tensor(attention_mask))
+print(outputs.logits)
 ```
 
 ## [Tokenizers](https://youtu.be/VFp38yj8h3A?si=GD7nYxwRkGjZyb4I)
@@ -223,7 +265,7 @@ The tokenzier's objective is to find a meaningful representation
 
 ### The tokenization pipeline
 
-Raw Text => Tokens => Special Tokens => Input IDs
+`Raw Text` => `Tokens` => `Special Tokens` => `Input IDs`
 
 Translating text to numbers is known as `encoding`:
 1. tokenization. e.g. `tokens = tokenizer.tokenize("this is an apple.")`
@@ -234,6 +276,10 @@ These 3 steps are the same as `tokenizer("this is an apple.")` as the `__call__`
 
 `deconding`. e.g. `decoded_string = tokenizer.decode([7993, 170, 11303, 1200, 2443, 1110, 3014])`
 
+## Fine-Tunning a pretrained model
+
+
+
 ## Datasets
 
 Datasets is a library for easily accessing and sharing datasets for Audio, Computer Vision, and Natural Language Processing (NLP) tasks.
@@ -243,10 +289,3 @@ Datasets is a library for easily accessing and sharing datasets for Audio, Compu
 [Proprocess](https://huggingface.co/docs/datasets/use_dataset)
 
 Sometimes you may need to rename a column, and other times you might need to unflatten nested fields.
-
-
-
-
-
-
-
