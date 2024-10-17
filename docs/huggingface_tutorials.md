@@ -18,6 +18,7 @@
       - [The tokenization pipeline](#the-tokenization-pipeline)
   - [Fine-Tunning a pretrained model](#fine-tunning-a-pretrained-model)
     - [How to load datasets](#how-to-load-datasets)
+      - [Sentence Pairs](#sentence-pairs)
       - [RAM issue](#ram-issue)
       - [Dynamic padding](#dynamic-padding)
   - [Datasets](#datasets)
@@ -282,6 +283,8 @@ These 3 steps are the same as `tokenizer("this is an apple.")` as the `__call__`
 ## Fine-Tunning a pretrained model
 
 ### How to load datasets
+
+#### Sentence Pairs
 
 **GLUE benchmark** -- an academic benchmark that is used to measure the performance of ML models across 10 different **text classification** tasks.
 
